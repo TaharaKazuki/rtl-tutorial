@@ -29,19 +29,13 @@ import type {
   Pet,
   PetsArray,
   PetsNestedArray
-} from '.././model'
+} from '.././src/model'
 
 
 
 /**
  * @summary List all pets
  */
-export type listPetsResponse = {
-  data: PetsArray;
-  status: number;
-  headers: Headers;
-}
-
 export const getListPetsUrl = (params?: ListPetsParams,) => {
   const normalizedParams = new URLSearchParams();
 
@@ -55,7 +49,7 @@ export const getListPetsUrl = (params?: ListPetsParams,) => {
   return normalizedParams.size ? `/pets?${normalizedParams.toString()}` : `/pets`
 }
 
-export const listPets = async (params?: ListPetsParams, options?: RequestInit): Promise<listPetsResponse> => {
+export const listPets = async (params?: ListPetsParams, options?: RequestInit): Promise<PetsArray> => {
   
   const res = await fetch(getListPetsUrl(params),
   {      
@@ -68,7 +62,7 @@ export const listPets = async (params?: ListPetsParams, options?: RequestInit): 
   )
   const data = await res.json()
 
-  return { status: res.status, data, headers: res.headers }
+  return data as PetsArray
 }
 
 
@@ -147,19 +141,13 @@ export function useListPets<TData = Awaited<ReturnType<typeof listPets>>, TError
 /**
  * @summary Create a pet
  */
-export type createPetsResponse = {
-  data: void;
-  status: number;
-  headers: Headers;
-}
-
 export const getCreatePetsUrl = () => {
 
 
   return `/pets`
 }
 
-export const createPets = async (createPetsBody: CreatePetsBody, options?: RequestInit): Promise<createPetsResponse> => {
+export const createPets = async (createPetsBody: CreatePetsBody, options?: RequestInit): Promise<void> => {
   
   const res = await fetch(getCreatePetsUrl(),
   {      
@@ -173,7 +161,7 @@ export const createPets = async (createPetsBody: CreatePetsBody, options?: Reque
   )
   const data = await res.json()
 
-  return { status: res.status, data, headers: res.headers }
+  return data as void
 }
 
 
@@ -221,12 +209,6 @@ export const useCreatePets = <TError = Error,
     /**
  * @summary List all pets as nested array
  */
-export type listPetsNestedArrayResponse = {
-  data: PetsNestedArray;
-  status: number;
-  headers: Headers;
-}
-
 export const getListPetsNestedArrayUrl = (params?: ListPetsNestedArrayParams,) => {
   const normalizedParams = new URLSearchParams();
 
@@ -240,7 +222,7 @@ export const getListPetsNestedArrayUrl = (params?: ListPetsNestedArrayParams,) =
   return normalizedParams.size ? `/pets-nested-array?${normalizedParams.toString()}` : `/pets-nested-array`
 }
 
-export const listPetsNestedArray = async (params?: ListPetsNestedArrayParams, options?: RequestInit): Promise<listPetsNestedArrayResponse> => {
+export const listPetsNestedArray = async (params?: ListPetsNestedArrayParams, options?: RequestInit): Promise<PetsNestedArray> => {
   
   const res = await fetch(getListPetsNestedArrayUrl(params),
   {      
@@ -253,7 +235,7 @@ export const listPetsNestedArray = async (params?: ListPetsNestedArrayParams, op
   )
   const data = await res.json()
 
-  return { status: res.status, data, headers: res.headers }
+  return data as PetsNestedArray
 }
 
 
@@ -332,19 +314,13 @@ export function useListPetsNestedArray<TData = Awaited<ReturnType<typeof listPet
 /**
  * @summary Info for a specific pet
  */
-export type showPetByIdResponse = {
-  data: Pet;
-  status: number;
-  headers: Headers;
-}
-
 export const getShowPetByIdUrl = (petId: string,) => {
 
 
   return `/pets/${petId}`
 }
 
-export const showPetById = async (petId: string, options?: RequestInit): Promise<showPetByIdResponse> => {
+export const showPetById = async (petId: string, options?: RequestInit): Promise<Pet> => {
   
   const res = await fetch(getShowPetByIdUrl(petId),
   {      
@@ -357,7 +333,7 @@ export const showPetById = async (petId: string, options?: RequestInit): Promise
   )
   const data = await res.json()
 
-  return { status: res.status, data, headers: res.headers }
+  return data as Pet
 }
 
 
